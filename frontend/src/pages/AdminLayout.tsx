@@ -4,9 +4,6 @@ import {
   LayoutDashboard, 
   Users, 
   Shield, 
-  AlertTriangle, 
-  FileText, 
-  Settings, 
   LogOut,
   Menu,
   X
@@ -22,10 +19,6 @@ const AdminLayout: React.FC = () => {
   const navigation = [
     { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
     { name: 'User Management', href: '/admin/users', icon: Users },
-    { name: 'Content Moderation', href: '/admin/moderation', icon: AlertTriangle },
-    { name: 'Privacy Requests', href: '/admin/privacy', icon: FileText },
-    { name: 'Audit Logs', href: '/admin/audit', icon: Shield },
-    { name: 'Settings', href: '/admin/settings', icon: Settings },
   ];
 
   const isActive = (href: string) => {
