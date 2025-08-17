@@ -247,7 +247,7 @@ const CBTChat: React.FC = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${apiKey}`,
-            "HTTP-Referer": "http://localhost:3000",
+            "HTTP-Referer": API_URL,
             "X-Title": "CBT Demo App",
           },
         }
