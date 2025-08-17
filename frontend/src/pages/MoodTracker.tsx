@@ -12,6 +12,7 @@ import {
   Laugh,
   PartyPopper,
 } from "lucide-react";
+import { API_URL } from "../constants/api";
 
 type MoodEntry = {
   mood: number; // 1..7
@@ -48,7 +49,7 @@ const MoodTracker: React.FC = () => {
     if (!userId) return;
     setLoading(true);
     axios
-      .get<MoodEntry[]>(`http://localhost:5000/api/mood/${userId}`)
+      .get<MoodEntry[]>(`${API_URL}/api/mood/${userId}`)
       .then((res) => {
         setMoodHistory(res.data || []);
         setLoading(false);
@@ -67,10 +68,10 @@ const MoodTracker: React.FC = () => {
         note: moodNote,
         date: new Date().toISOString(),
       };
-      await axios.post("http://localhost:5000/api/mood", payload);
+      await axios.post(`${API_URL}/api/mood`, payload);
       setMoodNote("");
       const updated = await axios.get<MoodEntry[]>(
-        `http://localhost:5000/api/mood/${userId}`
+        `${API_URL}/api/mood/${userId}`
       );
       setMoodHistory(updated.data);
     } catch (err) {

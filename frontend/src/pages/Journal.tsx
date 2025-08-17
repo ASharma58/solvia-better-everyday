@@ -25,6 +25,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { API_URL } from "../constants/api";
 
 type JournalEntry = {
   _id?: string;
@@ -88,7 +89,7 @@ const Journal: React.FC = () => {
     if (!userEmail) return;
     setLoading(true);
     axios
-      .get<JournalEntry[]>(`http://localhost:5000/api/journal/${userEmail}`)
+      .get<JournalEntry[]>(`${API_URL}/api/journal/${userEmail}`)
       .then((res) => {
         setJournalEntries(res.data.reverse()); // newest first
         setLoading(false);
@@ -119,13 +120,10 @@ const Journal: React.FC = () => {
       favorite: false,
     };
     try {
-      const res = await axios.post<JournalEntry>(
-        "http://localhost:5000/api/journal",
-        {
-          ...payload,
-          userId,
-        }
-      );
+      const res = await axios.post<JournalEntry>(`${API_URL}/api/journal`, {
+        ...payload,
+        userId,
+      });
       setJournalEntries((prev) => [res.data, ...prev]);
       setNewEntry("");
       setSelectedPrompt("");
@@ -149,13 +147,13 @@ const Journal: React.FC = () => {
     try {
       try {
         await axios.put(
-          `http://localhost:5000/api/journal/${entry._id}/favorite`,
+          `${API_URL}/api/journal/${entry._id}/favorite`,
           { favorite: nextFav },
           { headers: { "Content-Type": "application/json" } }
         );
       } catch {
         await axios.patch(
-          `http://localhost:5000/api/journal/${entry._id}`,
+          `${API_URL}/api/journal/${entry._id}`,
           { favorite: nextFav },
           { headers: { "Content-Type": "application/json" } }
         );
@@ -173,7 +171,7 @@ const Journal: React.FC = () => {
     const prev = [...journalEntries];
     setJournalEntries((p) => p.filter((e) => e._id !== id));
     try {
-      await axios.delete(`http://localhost:5000/api/journal/${id}`);
+      await axios.delete(`${API_URL}/api/journal/${id}`);
     } catch (err) {
       setJournalEntries(prev); // revert on error
       console.error("Failed to delete:", err);
@@ -200,13 +198,13 @@ const Journal: React.FC = () => {
     try {
       try {
         await axios.patch(
-          `http://localhost:5000/api/journal/${_id}`,
+          `${API_URL}/api/journal/${_id}`,
           { title, mood, entry },
           { headers: { "Content-Type": "application/json" } }
         );
       } catch {
         await axios.put(
-          `http://localhost:5000/api/journal/${_id}`,
+          `${API_URL}/api/journal/${_id}`,
           { title, mood, entry },
           { headers: { "Content-Type": "application/json" } }
         );

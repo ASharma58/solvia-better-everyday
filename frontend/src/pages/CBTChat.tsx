@@ -10,6 +10,7 @@ import {
   User,
   Bot,
 } from "lucide-react";
+import { API_URL } from "../constants/api";
 
 /* --- Local types --- */
 type MessageType = "user" | "assistant";
@@ -131,7 +132,7 @@ const CBTChat: React.FC = () => {
       setLoading(true);
       try {
         const res = await axios.get<BackendMessage[]>(
-          `http://localhost:5000/api/cbt/${userId}`
+          `${API_URL}/api/cbt/${userId}`
         );
 
         const raw = Array.isArray(res.data) ? res.data : [];
@@ -201,10 +202,11 @@ const CBTChat: React.FC = () => {
     content: string;
   }) => {
     try {
-      await axios.post("http://localhost:5000/api/cbt", {
-        ...payload,
-        email: userEmail,
+      await axios.post(`${API_URL}/api/cbt`, {
         userId,
+        email: userEmail,
+        sender: payload.sender,
+        content: payload.content,
       });
     } catch (e) {
       console.error("Failed to save CBT message:", e);

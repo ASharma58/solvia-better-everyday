@@ -11,6 +11,7 @@ import {
   BarChart,
   Bar,
 } from "recharts";
+import { API_URL } from "../constants/api";
 
 type MoodPoint = { day: string; mood: number; journals?: number; cbt?: number };
 type Activity = { type: string; title: string; time: string };
@@ -219,9 +220,7 @@ const Dashboard: React.FC = () => {
     if (!userId) return;
     const fetchData = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:5000/api/dashboard/${userId}`
-        );
+        const res = await fetch(`${API_URL}/api/dashboard/${userId}`);
         const data = await res.json();
         setDashboardData({
           moodAverage: data.moodAverage || "0.0",

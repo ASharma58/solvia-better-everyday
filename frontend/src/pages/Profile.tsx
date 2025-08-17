@@ -10,6 +10,7 @@ import {
   Trash2,
 } from "lucide-react";
 import axios from "axios";
+import { API_URL } from "../constants/api";
 
 interface ProfileData {
   name: string;
@@ -62,7 +63,7 @@ const Profile: React.FC = () => {
     setLoading(true);
     try {
       const res = await axios.get<Partial<ProfileData>>(
-        `http://localhost:5000/api/profile/${userId}`
+        `${API_URL}/api/profile/${userId}`
       );
       const data = res.data || {};
       setProfileData({
@@ -91,7 +92,7 @@ const Profile: React.FC = () => {
     setError("");
     setNotice("");
     try {
-      await axios.put(`http://localhost:5000/api/profile/${userId}`, {
+      await axios.put(`${API_URL}/api/profile/${userId}`, {
         ...profileData,
       });
       setIsEditing(false);
@@ -137,14 +138,11 @@ const Profile: React.FC = () => {
     }
     setCpBusy(true);
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/change-password",
-        {
-          userId,
-          currentPassword: cpCurrent,
-          newPassword: cpNew,
-        }
-      );
+      const res = await axios.post(`${API_URL}/api/auth/change-password`, {
+        userId,
+        currentPassword: cpCurrent,
+        newPassword: cpNew,
+      });
       if (res.status === 200) {
         setCpSuccess("Password changed successfully.");
         setCpCurrent("");
@@ -174,10 +172,10 @@ const Profile: React.FC = () => {
     }
     setDelBusy(true);
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/delete-account",
-        { userId, password: delPassword }
-      );
+      const res = await axios.post(`${API_URL}/api/auth/delete-account`, {
+        userId,
+        password: delPassword,
+      });
       if (res.status === 200) {
         window.location.href = "/";
       }

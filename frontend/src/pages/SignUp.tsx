@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
+import { API_URL } from "../constants/api";
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ const SignUp: React.FC = () => {
     if (!validateForm()) return;
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/signup", {
+      const res = await fetch(`${API_URL}/api/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
